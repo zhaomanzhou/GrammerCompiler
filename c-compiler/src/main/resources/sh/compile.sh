@@ -1,0 +1,1 @@
+javacc -OUTPUT_DIRECTORY=c-compiler/src/main/java/cn/edu/nwafu/parser  c-compiler/src/main/resources/jj/Parser.jj
