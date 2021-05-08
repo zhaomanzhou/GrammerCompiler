@@ -31,7 +31,6 @@ abstract public class ExprNode extends Node {
         }
     }
 
-    // #@@range/isPointer{
     public boolean isPointer() {
         try {
             return type().isPointer();
@@ -40,7 +39,6 @@ abstract public class ExprNode extends Node {
             return false;
         }
     }
-    // #@@}
 
     abstract public <S,E> E accept(ASTVisitor<S,E> visitor);
 }

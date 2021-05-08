@@ -9,27 +9,23 @@ package cn.edu.nwafu.parser;
 import cn.edu.nwafu.ast.*;
 import cn.edu.nwafu.type.*;
 import java.util.*;
-import cn.edu.nwafu.utils.ErrorHandler;
+import cn.edu.nwafu.utils.*;
+import cn.edu.nwafu.entity.*;
 
 public class Parser
 {
 
         private String sourceName = "";
-        private LibraryLoader loader;
+        private LibraryLoader loade = new LibraryLoader();
         private ErrorHandler errorHandler;
-        private Set<String> knownTypedefs;
+        private Set<String> knownTypedefs = new HashSet<>();
 
-    public static void main ( String[] args  )
+    public static void main ( String[] args  ) throws Exception
     {
-          Parser parser ;
 
-      	  parser = new Parser(Parser.class.getClassLoader().getResourceAsStream("cfile/Stack.c"));
-      	  Token nextToken = parser.getNextToken();
-          while (nextToken != null && !nextToken.image.equals(""))
-          {
-              System.out.println(nextToken);
-              nextToken = parser.getNextToken();
-          }
+      	  Parser parser = new Parser(Parser.class.getClassLoader().getResourceAsStream("cfile/Stack.c"));
+      	  AST ast = parser.compilation_unit();
+      	  ast.dump();
     }
 
     private IntegerLiteralNode integerNode(Location loc, String image) {
@@ -249,6 +245,277 @@ TOKEN : {
 
 }
 
+
+AST compilation_unit():
+{
+    Token t;
+    Declarations  decls;
+}
+{
+        {
+            t = getToken(1);
+        }
+     decls=top_defs() <EOF>
+        {
+            return new AST(location(t), decls);
+        }
+}
+
+Declarations top_defs():
+{
+    Declarations decls = new Declarations();
+    DefinedFunction defun;
+    List<DefinedVariable> defvars;
+    Constant defconst;
+    StructNode defstruct;
+    UnionNode defunion;
+    TypedefNode typedef;
+}
+{
+    ( LOOKAHEAD(storage() typeref() <IDENTIFIER> "(")
+      defun=defun()         { decls.addDefun(defun); }
+    | LOOKAHEAD(3)
+      defvars=defvars()     { decls.addDefvars(defvars); }
+    | defconst=defconst()   { decls.addConstant(defconst); }
+    | defstruct=defstruct() { decls.addDefstruct(defstruct); }
+    | defunion=defunion()   { decls.addDefunion(defunion); }
+    | typedef=typedef()     { decls.addTypedef(typedef); }
+    )*
+        {
+            return decls;
+        }
+}
+
+List<DefinedVariable> defvars():
+{
+    List<DefinedVariable> defs = new ArrayList<DefinedVariable>();
+    boolean priv;
+    TypeNode type;
+    String name;
+    ExprNode init = null;
+}
+{
+    priv=storage() type=type() name=name() ["=" init=expr()]
+        {
+            defs.add(new DefinedVariable(priv, type, name, init));
+            init = null;
+        }
+    ( "," name=name() ["=" init=expr()]
+        {
+            defs.add(new DefinedVariable(priv, type, name, init));
+            init = null;
+        }
+    )* ";"
+        {
+            return defs;
+        }
+}
+
+Constant defconst():
+{
+    TypeNode type;
+    String name;
+    ExprNode value;
+}
+{
+    <CONST> type=type() name=name() "=" value=expr() ";"
+        {
+            return new Constant(type, name, value);
+        }
+}
+
+DefinedFunction defun():
+{
+    boolean priv;
+    TypeRef ret;
+    String n;
+    Params ps;
+    BlockNode body;
+}
+{
+    priv=storage() ret=typeref() n=name() "(" ps=params() ")" body=block()
+        {
+            TypeRef t = new FunctionTypeRef(ret, ps.parametersTypeRef());
+            return new DefinedFunction(priv, new TypeNode(t), n, ps, body);
+        }
+}
+
+boolean storage():
+{ Token t = null; }
+{
+    [t=<STATIC>] { return (t!=null); }
+}
+
+Params params():
+{
+    Token t;
+    Params params;
+}
+{
+      LOOKAHEAD(<VOID> ")")
+      t=<VOID>
+        {
+            return new Params(location(t), new ArrayList<Parameter>());
+        }
+    | params=fixedparams()
+            ["," "..." { params.acceptVarargs(); }]
+        {
+            return params;
+        }
+}
+
+Params fixedparams():
+{
+    List<Parameter> params = new ArrayList<Parameter>();
+    Parameter param, param1;
+}
+{
+    param1=param() { params.add(param1); }
+    ( LOOKAHEAD(2) "," param=param() { params.add(param); } )*
+        {
+            return new Params(param1.location(), params);
+        }
+}
+
+Parameter param():
+{
+    TypeNode t;
+    String n;
+}
+{
+    t=type() n=name() { return new Parameter(t, n); }
+}
+
+
+BlockNode block():
+{
+    Token t;
+    List<DefinedVariable> vars;
+    List<StmtNode> stmts;
+}
+{
+    t="{" vars=defvar_list() stmts=stmts() "}"
+        {
+            return new BlockNode(location(t), vars, stmts);
+        }
+}
+List<DefinedVariable> defvar_list():
+{
+    List<DefinedVariable> result = new ArrayList<DefinedVariable>();
+    List<DefinedVariable> vars;
+}
+{
+    ( vars=defvars() { result.addAll(vars); } )*
+        {
+            return result;
+        }
+}
+
+StructNode defstruct():
+{
+    Token t;
+    String n;
+    List<Slot> membs;
+}
+{
+    t=<STRUCT> n=name() membs=member_list() ";"
+        {
+            return new StructNode(location(t), new StructTypeRef(n), n, membs);
+        }
+}
+
+UnionNode defunion():
+{
+    Token t;
+    String n;
+    List<Slot> membs;
+}
+{
+    t=<UNION> n=name() membs=member_list() ";"
+        {
+            return new UnionNode(location(t), new UnionTypeRef(n), n, membs);
+        }
+}
+
+List<Slot> member_list():
+{
+    List<Slot> membs = new ArrayList<Slot>();
+    Slot s;
+}
+{
+    "{" (s=slot() ";" { membs.add(s); })* "}"
+        {
+            return membs;
+        }
+}
+
+Slot slot():
+{
+    TypeNode t;
+    String n;
+}
+{
+    t=type() n=name() { return new Slot(t, n); }
+}
+
+UndefinedFunction funcdecl():
+{
+    TypeRef ret;
+    String n;
+    Params ps;
+}
+{
+    <EXTERN> ret=typeref() n=name() "(" ps=params() ")" ";"
+        {
+            TypeRef t = new FunctionTypeRef(ret, ps.parametersTypeRef());
+            return new UndefinedFunction(new TypeNode(t), n, ps);
+        }
+}
+// #@@}
+
+UndefinedVariable vardecl():
+{
+    TypeNode t;
+    String n;
+}
+{
+    <EXTERN> t=type() n=name() ";"
+        {
+            return new UndefinedVariable(t, n);
+        }
+}
+
+
+
+
+
+
+
+TypedefNode typedef():
+{
+    Token t;
+    TypeRef ref;
+    Token newname;
+}
+{
+    t=<TYPEDEF> ref=typeref() newname=<IDENTIFIER> ";"
+        {
+            addType(newname.image);
+            return new TypedefNode(location(t), ref, newname.image);
+        }
+}
+
+List<StmtNode> stmts():
+{
+    List<StmtNode> ss = new ArrayList<StmtNode>();
+    StmtNode s;
+}
+{
+    (s=stmt() { if (s != null) ss.add(s); })*
+        {
+            return ss;
+        }
+}
 
 StmtNode stmt():
 {
@@ -758,10 +1025,21 @@ ExprNode postfix():
 }
 
 
-String name():
-{ Token t; }
+VarName name():
 {
-    t=<IDENTIFIER> { return t.image; }
+    Token t;
+    Token len;
+    VarName varName;
+}
+{
+    LOOKAHEAD(3)
+    t=<IDENTIFIER> { varName =  new VarName(t.image, 0); } |
+    t=<IDENTIFIER>  "[" "]"  {varName =  new VarName(t.image, -1);} |
+    t=<IDENTIFIER> "[" len=<INTEGER>"]" {varName =  new VarName(t.image, len);}
+    {
+        return varName;
+    }
+
 }
 
 List<ExprNode> args():

@@ -6,7 +6,12 @@ import cn.edu.nwafu.ir.Expr;
 import cn.edu.nwafu.type.Type;
 import cn.edu.nwafu.ast.ExprNode;
 
+/**
+ * 程序中定义的变量
+ */
 public class DefinedVariable extends Variable {
+
+    //变量定义右边的表达式
     protected ExprNode initializer;
     protected Expr ir;
     protected long sequence;

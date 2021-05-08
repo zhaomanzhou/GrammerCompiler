@@ -1,6 +1,9 @@
 package cn.edu.nwafu.type;
 import cn.edu.nwafu.ast.Location;
 
+/**
+ * 自定义类型  typedef
+ */
 public class UserTypeRef extends TypeRef {
     protected String name;
 

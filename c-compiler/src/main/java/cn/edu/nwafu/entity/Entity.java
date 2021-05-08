@@ -13,6 +13,7 @@ abstract public class Entity
         implements Dumpable
 {
     protected String name;
+    //是否是static
     protected boolean isPrivate;
     protected TypeNode typeNode;
     protected long nRefered;

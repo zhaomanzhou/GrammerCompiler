@@ -2,6 +2,9 @@ package cn.edu.nwafu.ast;
 import cn.edu.nwafu.type.Type;
 import cn.edu.nwafu.type.TypeRef;
 
+/**
+ * 结构体，联合体内成员
+ */
 public class Slot extends Node {
     protected TypeNode typeNode;
     protected String name;
