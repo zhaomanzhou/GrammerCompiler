@@ -23,7 +23,5 @@ public class LabelNode extends StmtNode {
         d.printMember("stmt", stmt);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
+
 }

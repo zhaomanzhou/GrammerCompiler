@@ -1,13 +1,10 @@
 package cn.edu.nwafu.entity;
 import cn.edu.nwafu.type.Type;
 import cn.edu.nwafu.ast.TypeNode;
-import cn.edu.nwafu.asm.Symbol;
-import cn.edu.nwafu.asm.Label;
 import java.util.List;
 
 abstract public class Function extends Entity {
-    protected Symbol callingSymbol;
-    protected Label label;
+
 
     public Function(boolean priv, TypeNode t, String name) {
         super(priv, t, name);
@@ -26,26 +23,5 @@ abstract public class Function extends Entity {
         return returnType().isVoid();
     }
 
-    public void setCallingSymbol(Symbol sym) {
-        if (this.callingSymbol != null) {
-            throw new Error("must not happen: Function#callingSymbol was set again");
-        }
-        this.callingSymbol = sym;
-    }
 
-    public Symbol callingSymbol() {
-        if (this.callingSymbol == null) {
-            throw new Error("must not happen: Function#callingSymbol called but null");
-        }
-        return this.callingSymbol;
-    }
-
-    public Label label() {
-        if (label != null) {
-            return label;
-        }
-        else {
-            return label = new Label(callingSymbol());
-        }
-    }
 }

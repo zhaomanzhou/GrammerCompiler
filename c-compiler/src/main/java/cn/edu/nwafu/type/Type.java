@@ -13,9 +13,7 @@ import cn.edu.nwafu.exception.SemanticError;
 public abstract class Type {
     static final public long sizeUnknown = -1;
 
-    abstract public long size();
-    public long allocSize() { return size(); }
-    public long alignment() { return allocSize(); }
+
 
     abstract public boolean isSameType(Type other);
 
@@ -38,9 +36,7 @@ public abstract class Type {
     public boolean isScalar() { return false; }
     public boolean isCallable() { return false; }
 
-    // Ability methods (binary)
-    abstract public boolean isCompatible(Type other);
-    abstract public boolean isCastableTo(Type target);
+
 
     public Type baseType() {
         throw new SemanticError("#baseType called for undereferable type");

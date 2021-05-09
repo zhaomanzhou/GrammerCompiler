@@ -2,12 +2,12 @@ package cn.edu.nwafu.ast;
 import cn.edu.nwafu.type.TypeRef;
 
 /**
- * 字符串字面量
+ * 整数字面量
  */
-public class StringLiteralNode extends LiteralNode {
+public class FloatLiteralNode extends LiteralNode {
     protected String value;
 
-    public StringLiteralNode(Location loc, TypeRef ref, String value) {
+    public FloatLiteralNode(Location loc, TypeRef ref, String value) {
         super(loc, ref);
         this.value = value;
     }
@@ -16,9 +16,8 @@ public class StringLiteralNode extends LiteralNode {
         return value;
     }
 
-
-
     protected void _dump(Dumper d) {
+        d.printMember("typeNode", typeNode);
         d.printMember("value", value);
     }
 

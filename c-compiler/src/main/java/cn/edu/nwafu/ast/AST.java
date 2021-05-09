@@ -1,6 +1,5 @@
 package cn.edu.nwafu.ast;
 import cn.edu.nwafu.entity.*;
-import cn.edu.nwafu.ir.IR;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -10,8 +9,6 @@ import java.io.PrintStream;
 public class AST extends Node {
     protected Location source;
     protected Declarations declarations;
-    protected ToplevelScope scope;
-    protected ConstantTable constantTable;
 
     public AST(Location source, Declarations declarations) {
         super();
@@ -67,48 +64,18 @@ public class AST extends Node {
     public List<DefinedFunction> definedFunctions() {
         return declarations.defuns();
     }
-
-    // called by LocalResolver
-    public void setScope(ToplevelScope scope) {
-        if (this.scope != null) {
-            throw new Error("must not happen: ToplevelScope set twice");
-        }
-        this.scope = scope;
+    public List<UndefinedFunction> undefinedFunctions() {
+        return declarations.funcdecls();
     }
 
-    public ToplevelScope scope() {
-        if (this.scope == null) {
-            throw new Error("must not happen: AST.scope is null");
-        }
-        return scope;
-    }
 
-    // called by LocalResolver
-    public void setConstantTable(ConstantTable table) {
-        if (this.constantTable != null) {
-            throw new Error("must not happen: ConstantTable set twice");
-        }
-        this.constantTable = table;
-    }
 
-    public ConstantTable constantTable() {
-        if (this.constantTable == null) {
-            throw new Error("must not happen: AST.constantTable is null");
-        }
-        return constantTable;
-    }
 
-    public IR ir() {
-        return new IR(source,
-                declarations.defvars(),
-                declarations.defuns(),
-                declarations.funcdecls(),
-                scope,
-                constantTable);
-    }
+
 
     protected void _dump(Dumper d) {
         d.printNodeList("variables", definedVariables());
+        d.printNodeList("functions1", undefinedFunctions());
         d.printNodeList("functions", definedFunctions());
     }
 

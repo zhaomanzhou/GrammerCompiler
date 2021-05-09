@@ -1,5 +1,4 @@
 package cn.edu.nwafu.ast;
-import cn.edu.nwafu.asm.Label;
 
 import java.util.*;
 
@@ -7,7 +6,6 @@ import java.util.*;
  * 类型转换
  */
 public class CaseNode extends StmtNode {
-    protected Label label;
     protected List<ExprNode> values;
     protected BlockNode body;
 
@@ -15,7 +13,6 @@ public class CaseNode extends StmtNode {
         super(loc);
         this.values = values;
         this.body = body;
-        this.label = new Label();
     }
 
     public List<ExprNode> values() {
@@ -30,16 +27,10 @@ public class CaseNode extends StmtNode {
         return body;
     }
 
-    public Label label() {
-        return label;
-    }
 
     protected void _dump(Dumper d) {
         d.printNodeList("values", values);
         d.printMember("body", body);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

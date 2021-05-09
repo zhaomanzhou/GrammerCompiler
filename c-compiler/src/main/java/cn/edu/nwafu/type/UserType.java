@@ -26,9 +26,6 @@ public class UserType extends NamedType {
     // Forward methods to real type.
     //
 
-    public long size() { return realType().size(); }
-    public long allocSize() { return realType().allocSize(); }
-    public long alignment() { return realType().alignment(); }
 
     public boolean isVoid() { return realType().isVoid(); }
     public boolean isInt() { return realType().isInt(); }
@@ -52,13 +49,7 @@ public class UserType extends NamedType {
         return realType().isSameType(other);
     }
 
-    public boolean isCompatible(Type other) {
-        return realType().isCompatible(other);
-    }
 
-    public boolean isCastableTo(Type other) {
-        return realType().isCastableTo(other);
-    }
 
     public IntegerType getIntegerType() { return realType().getIntegerType(); }
     public CompositeType getCompositeType() { return realType().getCompositeType(); }

@@ -13,9 +13,9 @@ public class VarName
      * 0 代表不是数组
      * -1 代表不知道长度
      */
-    private int arrayLen;
+    private long arrayLen;
 
-    public VarName(String name, int arrayLen)
+    public VarName(String name, long arrayLen)
     {
         this.name = name;
         this.arrayLen = arrayLen;
@@ -31,12 +31,12 @@ public class VarName
         this.name = name;
     }
 
-    public int getArrayLen()
+    public long getArrayLen()
     {
         return arrayLen;
     }
 
-    public void setArrayLen(int arrayLen)
+    public void setArrayLen(long arrayLen)
     {
         this.arrayLen = arrayLen;
     }

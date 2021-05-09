@@ -34,7 +34,4 @@ public class DereferenceNode extends LHSNode {
         d.printMember("expr", expr);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

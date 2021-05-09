@@ -3,6 +3,10 @@ import cn.edu.nwafu.ast.Dumper;
 import cn.edu.nwafu.ast.TypeNode;
 import cn.edu.nwafu.ast.ExprNode;
 
+
+/**
+ * 以const 开头定义的变量
+ */
 public class Constant extends Entity {
     private TypeNode type;
     private String name;
@@ -26,7 +30,4 @@ public class Constant extends Entity {
         d.printMember("value", value);
     }
 
-    public <T> T accept(EntityVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }

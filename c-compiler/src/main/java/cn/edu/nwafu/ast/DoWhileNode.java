@@ -23,7 +23,4 @@ public class DoWhileNode extends StmtNode {
         d.printMember("cond", cond);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

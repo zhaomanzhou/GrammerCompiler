@@ -44,9 +44,7 @@ public class PtrMemberNode extends LHSNode {
         return member;
     }
 
-    public long offset() {
-        return dereferedCompositeType().memberOffset(member);
-    }
+
 
     protected Type origType() {
         return dereferedCompositeType().memberType(member);
@@ -64,7 +62,4 @@ public class PtrMemberNode extends LHSNode {
         d.printMember("member", member);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

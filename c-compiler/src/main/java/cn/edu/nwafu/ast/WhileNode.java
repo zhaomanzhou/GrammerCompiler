@@ -23,7 +23,4 @@ public class WhileNode extends StmtNode {
         d.printMember("body", body);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

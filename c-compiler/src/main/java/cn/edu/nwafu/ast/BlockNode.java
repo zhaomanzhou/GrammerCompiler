@@ -1,5 +1,4 @@
 package cn.edu.nwafu.ast;
-import cn.edu.nwafu.entity.LocalScope;
 import cn.edu.nwafu.entity.DefinedVariable;
 
 import java.util.*;
@@ -7,7 +6,6 @@ import java.util.*;
 public class BlockNode extends StmtNode {
     protected List<DefinedVariable> variables;
     protected List<StmtNode> stmts;
-    protected LocalScope scope;
 
     public BlockNode(Location loc, List<DefinedVariable> vars, List<StmtNode> stmts) {
         super(loc);
@@ -23,25 +21,11 @@ public class BlockNode extends StmtNode {
         return stmts;
     }
 
-    public StmtNode tailStmt() {
-        if (stmts.isEmpty()) return null;
-        return stmts.get(stmts.size() - 1);
-    }
 
-    public LocalScope scope() {
-        return scope;
-    }
-
-    public void setScope(LocalScope scope) {
-        this.scope = scope;
-    }
 
     protected void _dump(Dumper d) {
         d.printNodeList("variables", variables);
         d.printNodeList("stmts", stmts);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

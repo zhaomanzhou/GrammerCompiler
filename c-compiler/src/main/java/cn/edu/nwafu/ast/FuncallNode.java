@@ -63,7 +63,4 @@ public class FuncallNode extends ExprNode {
         d.printNodeList("args", args);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

@@ -24,7 +24,4 @@ public class SwitchNode extends StmtNode {
         d.printNodeList("cases", cases);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

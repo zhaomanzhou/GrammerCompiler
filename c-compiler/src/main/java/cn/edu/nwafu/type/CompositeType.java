@@ -7,16 +7,12 @@ import java.lang.reflect.*;
 
 abstract public class CompositeType extends NamedType {
     protected List<Slot> members;
-    protected long cachedSize;
-    protected long cachedAlign;
-    protected boolean isRecursiveChecked;
+
 
     public CompositeType(String name, List<Slot> membs, Location loc) {
         super(name, loc);
         this.members = membs;
-        this.cachedSize = sizeUnknown;
-        this.cachedAlign = sizeUnknown;
-        this.isRecursiveChecked = false;
+
     }
 
     public boolean isCompositeType() {
@@ -39,7 +35,6 @@ abstract public class CompositeType extends NamedType {
         if (isStruct() && !other.isStruct()) return false;
         if (isUnion() && !other.isUnion()) return false;
         CompositeType otherType = other.getCompositeType();
-        if (members.size() != other.size()) return false;
         Iterator<Type> otherTypes = otherType.memberTypes().iterator();
         for (Type t : memberTypes()) {
             if (! compareTypesBy(cmpMethod, t, otherTypes.next())) {
@@ -67,19 +62,7 @@ abstract public class CompositeType extends NamedType {
         }
     }
 
-    public long size() {
-        if (cachedSize == sizeUnknown) {
-            computeOffsets();
-        }
-        return cachedSize;
-    }
 
-    public long alignmemt() {
-        if (cachedAlign == sizeUnknown) {
-            computeOffsets();
-        }
-        return cachedAlign;
-    }
 
     public List<Slot> members() {
         return members;
@@ -101,15 +84,8 @@ abstract public class CompositeType extends NamedType {
         return fetch(name).type();
     }
 
-    public long memberOffset(String name) {
-        Slot s = fetch(name);
-        if (s.offset() == sizeUnknown) {
-            computeOffsets();
-        }
-        return s.offset();
-    }
 
-    abstract protected void computeOffsets();
+
 
     protected Slot fetch(String name) {
         Slot s = get(name);

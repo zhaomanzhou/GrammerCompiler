@@ -48,7 +48,4 @@ public class UnaryOpNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

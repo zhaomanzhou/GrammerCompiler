@@ -29,10 +29,7 @@ public class ArefNode extends LHSNode {
         return isMultiDimension() ? ((ArefNode)expr).baseExpr() : expr;
     }
 
-    // element size of this (multi-dimension) array
-    public long elementSize() {
-        return origType().allocSize();
-    }
+
 
     public long length() {
         return ((ArrayType)expr.origType()).length();
@@ -54,7 +51,4 @@ public class ArefNode extends LHSNode {
         d.printMember("index", index);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

@@ -60,7 +60,4 @@ public class VariableNode extends LHSNode {
         d.printMember("name", name, isResolved());
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

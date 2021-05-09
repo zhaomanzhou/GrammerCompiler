@@ -36,24 +36,9 @@ public class ArrayType extends Type {
         return length;
     }
 
-    // Value size as pointer
-    public long size() {
-        return pointerSize;
-    }
 
-    // Value size as allocated array
-    public long allocSize() {
-        if (length == undefined) {
-            return size();
-        }
-        else {
-            return baseType.allocSize() * length;
-        }
-    }
 
-    public long alignment() {
-        return baseType.alignment();
-    }
+
 
     public boolean equals(Object other) {
         if (! (other instanceof ArrayType)) return false;
@@ -67,14 +52,6 @@ public class ArrayType extends Type {
         return baseType.isSameType(other.baseType());
     }
 
-    public boolean isCompatible(Type target) {
-        if (!target.isPointer() && !target.isArray()) return false;
-        if (target.baseType().isVoid()) {
-            return true;
-        }
-        return baseType.isCompatible(target.baseType())
-                && baseType.size() == target.baseType().size();
-    }
 
     public boolean isCastableTo(Type target) {
         return target.isPointer() || target.isArray();

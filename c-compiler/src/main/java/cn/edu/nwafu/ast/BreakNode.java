@@ -8,7 +8,4 @@ public class BreakNode extends StmtNode {
     protected void _dump(Dumper d) {
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

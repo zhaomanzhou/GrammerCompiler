@@ -1,8 +1,6 @@
 package cn.edu.nwafu.entity;
-import cn.edu.nwafu.asm.Symbol;
 import cn.edu.nwafu.ast.Dumper;
 import cn.edu.nwafu.ast.TypeNode;
-import cn.edu.nwafu.ir.Expr;
 import cn.edu.nwafu.type.Type;
 import cn.edu.nwafu.ast.ExprNode;
 
@@ -13,9 +11,7 @@ public class DefinedVariable extends Variable {
 
     //变量定义右边的表达式
     protected ExprNode initializer;
-    protected Expr ir;
     protected long sequence;
-    protected Symbol symbol;
 
     public DefinedVariable(boolean priv, TypeNode type,
                            String name, ExprNode init) {
@@ -59,11 +55,7 @@ public class DefinedVariable extends Variable {
         this.initializer = expr;
     }
 
-    public void setIR(Expr expr) {
-        this.ir = expr;
-    }
 
-    public Expr ir() { return ir; }
 
     protected void _dump(Dumper d) {
         d.printMember("name", name);
@@ -72,7 +64,5 @@ public class DefinedVariable extends Variable {
         d.printMember("initializer", initializer);
     }
 
-    public <T> T accept(EntityVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
+
 }

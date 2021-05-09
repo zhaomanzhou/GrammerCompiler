@@ -37,9 +37,7 @@ public class IntegerType extends Type {
         return equals(other.getIntegerType());
     }
 
-    public boolean isCompatible(Type other) {
-        return (other.isInteger() && size <= other.size());
-    }
+
 
     public boolean isCastableTo(Type target) {
         return (target.isInteger() || target.isPointer());

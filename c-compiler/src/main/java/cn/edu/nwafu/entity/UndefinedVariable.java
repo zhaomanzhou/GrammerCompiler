@@ -17,7 +17,4 @@ public class UndefinedVariable extends Variable {
         d.printMember("typeNode", typeNode);
     }
 
-    public <T> T accept(EntityVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }

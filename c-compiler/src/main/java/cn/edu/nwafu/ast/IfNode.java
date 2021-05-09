@@ -30,7 +30,4 @@ public class IfNode extends StmtNode {
         d.printMember("elseBody", elseBody);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

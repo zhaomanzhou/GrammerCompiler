@@ -2,14 +2,11 @@ package cn.edu.nwafu.entity;
 import cn.edu.nwafu.ast.Dumper;
 import cn.edu.nwafu.ast.TypeNode;
 import cn.edu.nwafu.ast.BlockNode;
-import cn.edu.nwafu.ir.Stmt;
 import java.util.List;
 
 public class DefinedFunction extends Function {
     protected Params params;
     protected BlockNode body;
-    protected LocalScope scope;
-    protected List<Stmt> ir;
 
     public DefinedFunction(boolean priv, TypeNode type,
             String name, Params params, BlockNode body) {
@@ -30,39 +27,22 @@ public class DefinedFunction extends Function {
         return body;
     }
 
-    public List<Stmt> ir() {
-        return ir;
-    }
 
-    public void setIR(List<Stmt> ir) {
-        this.ir = ir;
-    }
 
-    public void setScope(LocalScope scope) {
-        this.scope = scope;
-    }
 
-    public LocalScope lvarScope() {
-        return body().scope();
-    }
 
     /**
      * Returns function local variables.
      * Does NOT include paramters.
      * Does NOT include static local variables.
      */
-    public List<DefinedVariable> localVariables() {
-        return scope.allLocalVariables();
-    }
 
     protected void _dump(Dumper d) {
         d.printMember("name", name);
         d.printMember("isPrivate", isPrivate);
         d.printMember("params", params);
+        d.printMember("typeNode", typeNode);
         d.printMember("body", body);
     }
 
-    public <T> T accept(EntityVisitor<T> visitor) {
-        return visitor.visit(this);
-    }
 }

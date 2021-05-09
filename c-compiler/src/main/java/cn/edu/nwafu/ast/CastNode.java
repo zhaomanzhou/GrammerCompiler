@@ -29,9 +29,7 @@ public class CastNode extends ExprNode {
     public boolean isLvalue() { return expr.isLvalue(); }
     public boolean isAssignable() { return expr.isAssignable(); }
 
-    public boolean isEffectiveCast() {
-        return type().size() > expr.type().size();
-    }
+
 
     public Location location() {
         return typeNode.location();
@@ -42,7 +40,4 @@ public class CastNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

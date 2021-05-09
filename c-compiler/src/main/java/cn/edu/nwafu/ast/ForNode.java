@@ -38,7 +38,4 @@ public class ForNode extends StmtNode {
         d.printMember("body", body);
     }
 
-    public <S,E> S accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }

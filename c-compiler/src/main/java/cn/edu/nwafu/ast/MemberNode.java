@@ -32,9 +32,7 @@ public class MemberNode extends LHSNode {
         return member;
     }
 
-    public long offset() {
-        return baseType().memberOffset(member);
-    }
+
 
     protected Type origType() {
         return baseType().memberType(member);
@@ -52,7 +50,4 @@ public class MemberNode extends LHSNode {
         d.printMember("member", member);
     }
 
-    public <S,E> E accept(ASTVisitor<S,E> visitor) {
-        return visitor.visit(this);
-    }
 }
