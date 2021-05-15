@@ -30,4 +30,6 @@ abstract public class ExprNode extends Node {
     }
 
 
+    abstract boolean compatible(ExprNode programe);
+
 }

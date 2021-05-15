@@ -40,4 +40,9 @@ public class CastNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        return false;
+    }
 }

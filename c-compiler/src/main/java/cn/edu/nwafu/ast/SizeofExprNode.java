@@ -38,4 +38,8 @@ public class SizeofExprNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        return false;
+    }
 }

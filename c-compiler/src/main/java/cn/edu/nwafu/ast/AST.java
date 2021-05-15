@@ -1,9 +1,11 @@
 package cn.edu.nwafu.ast;
 import cn.edu.nwafu.entity.*;
+import cn.edu.nwafu.utils.Result;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.PrintStream;
+import java.util.Set;
 
 //抽象语法数的根
 public class AST extends Node {
@@ -75,7 +77,7 @@ public class AST extends Node {
 
     protected void _dump(Dumper d) {
         d.printNodeList("variables", definedVariables());
-        d.printNodeList("functions1", undefinedFunctions());
+        d.printNodeList("deffunctions", undefinedFunctions());
         d.printNodeList("functions", definedFunctions());
     }
 
@@ -123,4 +125,47 @@ public class AST extends Node {
         }
     }
 
+
+    public Result compatible(AST program)
+    {
+        List<StructNode> defstructs = declarations.defstructs();
+        for(StructNode structNode: defstructs)
+        {
+            boolean finded = false;
+            for(StructNode structNode2: program.declarations.defstructs)
+            {
+                if(structNode.compatible(structNode2).success)
+                {
+                    finded = true;
+                    break;
+                }
+            }
+            if(!finded)
+            {
+                return Result.ofFalse("Can't find def of structure " + structNode.name + "\n");
+            }
+
+        }
+
+
+        Set<DefinedFunction> defuns = declarations.defuns;
+        for(DefinedFunction defFun: defuns)
+        {
+            boolean finded = false;
+            for(DefinedFunction progFun: program.declarations.defuns)
+            {
+                if(defFun.compatible(progFun).success)
+                {
+                    finded = true;
+                    break;
+                }
+            }
+            if(!finded)
+            {
+                 return Result.ofFalse("Can't find def of functure " + defFun.name()  + "\n");
+            }
+        }
+
+        return Result.ofSuccess();
+    }
 }

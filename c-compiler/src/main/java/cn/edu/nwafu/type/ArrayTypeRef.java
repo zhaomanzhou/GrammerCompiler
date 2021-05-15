@@ -1,5 +1,7 @@
 package cn.edu.nwafu.type;
 
+import cn.edu.nwafu.entity.VarName;
+
 public class ArrayTypeRef extends TypeRef {
     protected TypeRef baseType;
     protected long length;
@@ -16,6 +18,21 @@ public class ArrayTypeRef extends TypeRef {
         if (length < 0) throw new Error("negative array length");
         this.baseType = baseType;
         this.length = length;
+    }
+    public ArrayTypeRef(TypeRef baseType, VarName varName) {
+        super(baseType.location());
+        if (length < 0) throw new Error("negative array length");
+        if(varName.getArrayLen() > 0)
+        {
+            this.length = varName.getArrayLen();
+        }
+        if(varName.getSubVarName() != null)
+        {
+            this.baseType = new ArrayTypeRef(baseType, varName.getSubVarName());
+        }
+        {
+            this.baseType = baseType;
+        }
     }
 
     public boolean isArray() {

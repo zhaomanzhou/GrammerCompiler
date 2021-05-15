@@ -23,5 +23,9 @@ public class LabelNode extends StmtNode {
         d.printMember("stmt", stmt);
     }
 
-
+    @Override
+    public boolean compatible(StmtNode program)
+    {
+        return false;
+    }
 }

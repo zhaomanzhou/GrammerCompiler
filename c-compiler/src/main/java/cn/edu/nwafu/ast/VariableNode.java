@@ -60,4 +60,11 @@ public class VariableNode extends LHSNode {
         d.printMember("name", name, isResolved());
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof  VariableNode))
+            return false;
+        return name.equals(((VariableNode) programe).name);
+    }
 }

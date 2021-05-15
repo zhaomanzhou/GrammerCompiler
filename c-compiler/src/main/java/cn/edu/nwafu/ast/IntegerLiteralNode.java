@@ -21,4 +21,10 @@ public class IntegerLiteralNode extends LiteralNode {
         d.printMember("value", value);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof IntegerLiteralNode))
+            return false;
+        return value == ((IntegerLiteralNode) programe).value;
+    }
 }

@@ -8,4 +8,10 @@ public class BreakNode extends StmtNode {
     protected void _dump(Dumper d) {
     }
 
+    public boolean compatible(StmtNode program)
+    {
+        if(!(program instanceof  BreakNode))
+            return false;
+        return true;
+    }
 }

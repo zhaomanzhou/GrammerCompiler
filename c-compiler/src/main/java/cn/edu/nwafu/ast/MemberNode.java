@@ -50,4 +50,9 @@ public class MemberNode extends LHSNode {
         d.printMember("member", member);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        return false;
+    }
 }

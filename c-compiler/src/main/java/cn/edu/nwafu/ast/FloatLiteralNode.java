@@ -21,4 +21,11 @@ public class FloatLiteralNode extends LiteralNode {
         d.printMember("value", value);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof FloatLiteralNode))
+            return false;
+        return value.equals(((FloatLiteralNode) programe).value);
+    }
 }

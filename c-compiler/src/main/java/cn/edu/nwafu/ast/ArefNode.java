@@ -6,7 +6,7 @@ import cn.edu.nwafu.type.Type;
  * 数组引用   arr[i]
  */
 public class ArefNode extends LHSNode {
-    private ExprNode expr, index;
+    public ExprNode expr, index;
 
     public ArefNode(ExprNode expr, ExprNode index) {
         this.expr = expr;
@@ -51,4 +51,17 @@ public class ArefNode extends LHSNode {
         d.printMember("index", index);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof ArefNode) )
+            return false;
+
+        if(index != null)
+        {
+            if(! index.compatible(((ArefNode) programe).index))
+                return false;
+        }
+        return expr.compatible(((ArefNode) programe).expr);
+    }
 }

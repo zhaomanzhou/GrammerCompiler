@@ -48,4 +48,8 @@ public class CondExprNode extends ExprNode {
         d.printMember("elseExpr", elseExpr);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        return false;
+    }
 }

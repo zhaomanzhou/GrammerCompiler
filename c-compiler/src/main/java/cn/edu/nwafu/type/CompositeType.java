@@ -104,4 +104,6 @@ abstract public class CompositeType extends NamedType {
         }
         return null;
     }
+
+
 }

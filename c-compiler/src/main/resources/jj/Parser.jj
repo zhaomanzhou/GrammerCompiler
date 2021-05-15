@@ -23,7 +23,7 @@ public class Parser
     public static void main ( String[] args  ) throws Exception
     {
 
-      	  Parser parser = new Parser(Parser.class.getClassLoader().getResourceAsStream("cfile/Stack.out"));
+      	  Parser parser = new Parser(Parser.class.getClassLoader().getResourceAsStream("cfile/Stack.out.c"));
       	  AST ast = parser.compilation_unit();
       	  ast.dump();
     }
@@ -163,6 +163,8 @@ public class Parser
 
 }
 
+
+
 PARSER_END(Parser)
 
 
@@ -226,6 +228,12 @@ TOKEN: {
     | <TYPEDEF  : "typedef">
     | <IMPORT   : "import">
     | <SIZEOF   : "sizeof">
+}
+
+TOKEN: {
+    <OMIT: "---">
+    | <EXCAT_PARAM_NAME: "<EXACT_PARAM_NAME>" >
+    | <FORBIDDEN: "<forbidden>" >
 }
 
 // identifier
@@ -314,10 +322,10 @@ List<DefinedVariable> defvars():
         {
             if(varName.getArrayLen() == -1)
             {
-                type = new TypeNode(new ArrayTypeRef(type.typeRef()));
+                type = new TypeNode(new ArrayTypeRef(type.typeRef(), varName));
             }else if(varName.getArrayLen() > 0)
             {
-                type = new TypeNode(new ArrayTypeRef(type.typeRef(), varName.getArrayLen()));
+                type = new TypeNode(new ArrayTypeRef(type.typeRef(), varName));
             }
             defs.add(new DefinedVariable(priv, type, varName.getName(), init));
             init = null;
@@ -1124,8 +1132,8 @@ VarName name_():
     (
         LOOKAHEAD(3)
 
-         "[" "]"  {varName =  new VarName(name, -1);} |
-         "[" len=<INTEGER>"]" {varName =  new VarName(name, integerValue(len.image));}
+         "[" "]"  {VarName varName2 =  new VarName(name, -1); varName2.setSubVarName(varName); varName = varName2;} |
+         "[" len=<INTEGER>"]" {VarName varName2 =  new VarName(name, integerValue(len.image));varName2.setSubVarName(varName); varName = varName2;}
     )*
 
     {

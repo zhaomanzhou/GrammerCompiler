@@ -8,4 +8,13 @@ public class ContinueNode extends StmtNode {
     protected void _dump(Dumper d) {
     }
 
+    @Override
+    public boolean compatible(StmtNode program)
+    {
+        if(!(program instanceof ContinueNode))
+        {
+            return false;
+        }
+        return true;
+    }
 }

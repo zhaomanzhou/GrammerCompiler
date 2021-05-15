@@ -20,7 +20,7 @@ public class BusinessException extends Exception implements CommonError
     //接收自定义errormessage的方式构造异常
     public BusinessException(CommonError commonError, String errorMessage)
     {
-        super();
+        super(errorMessage);
         this.commonError = commonError;
         this.commonError.setErrorMessage(errorMessage);
     }
@@ -28,7 +28,7 @@ public class BusinessException extends Exception implements CommonError
 
     public BusinessException(String message)
     {
-        super();
+        super(message);
         this.commonError = new CommonErrorAdapter(ResponseCode.ERROR.getCode(), message);
     }
 

@@ -1,4 +1,6 @@
 package cn.edu.nwafu.ast;
+import cn.edu.nwafu.utils.Result;
+
 import java.io.PrintStream;
 
 abstract public class Node implements Dumpable {
@@ -21,4 +23,8 @@ abstract public class Node implements Dumpable {
     }
 
     abstract protected void _dump(Dumper d);
+
+    public Result compatible(Node program){
+        return Result.ofSuccess();
+    }
 }

@@ -42,4 +42,9 @@ public class Slot extends Node {
         d.printMember("name", name);
         d.printMember("typeNode", typeNode);
     }
+
+    public boolean compatible(Slot program)
+    {
+        return typeNode.typeRef.equals(program.typeRef()) && name.equals(program.name);
+    }
 }

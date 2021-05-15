@@ -22,4 +22,10 @@ public class StringLiteralNode extends LiteralNode {
         d.printMember("value", value);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof  StringLiteralNode))
+            return false;
+        return value.equals(((StringLiteralNode) programe).value);
+    }
 }

@@ -34,4 +34,11 @@ public class DereferenceNode extends LHSNode {
         d.printMember("expr", expr);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof DereferenceNode))
+            return false;
+        return expr.compatible(((DereferenceNode) programe).expr);
+    }
 }

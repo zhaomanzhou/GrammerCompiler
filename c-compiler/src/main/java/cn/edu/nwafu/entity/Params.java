@@ -38,4 +38,20 @@ public class Params extends ParamSlots<Parameter>
     public void dump(Dumper d) {
         d.printNodeList("parameters", parameters());
     }
+
+
+    public boolean compatible(Params program, boolean sameParamName)
+    {
+        if(program.paramDescriptors.size() != paramDescriptors.size())
+        {
+            return false;
+        }
+
+        for (int i = 0; i < paramDescriptors.size(); i++)
+        {
+            if(!paramDescriptors.get(i).compatible(program.paramDescriptors.get(i), sameParamName))
+                return false;
+        }
+        return true;
+    }
 }

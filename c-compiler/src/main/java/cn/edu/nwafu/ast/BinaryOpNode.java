@@ -64,5 +64,16 @@ public class BinaryOpNode extends ExprNode {
         d.printMember("right", right);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof BinaryOpNode))
+        {
+            return false;
+        }
+        if(!operator.equals(((BinaryOpNode) programe).operator))
+            return false;
 
+        return left.compatible(((BinaryOpNode) programe).left) && right.compatible(((BinaryOpNode) programe).right);
+
+    }
 }

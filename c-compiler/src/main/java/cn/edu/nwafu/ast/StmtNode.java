@@ -11,4 +11,9 @@ abstract public class StmtNode extends Node {
         return location;
     }
 
+    public  boolean compatible(StmtNode program)
+    {
+        return false;
+    }
+
 }

@@ -63,4 +63,29 @@ public class FuncallNode extends ExprNode {
         d.printNodeList("args", args);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof FuncallNode)) return false;
+
+        if(!expr.compatible(((FuncallNode) programe).expr))
+            return false;
+        for(ExprNode arg : args)
+        {
+            boolean finded = false;
+            for(ExprNode pgArg: ((FuncallNode) programe).args)
+            {
+                if(arg.compatible(pgArg))
+                {
+                    finded = true;
+                    break;
+                }
+            }
+            if(!finded)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password: idofast
-    url: jdbc:mysql:///test_idf?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true
+    url: jdbc:mysql:///oj?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   redis:
@@ -45,6 +45,18 @@ token:
 switch:
   sendEmail: false
 
+
+
+compiler:
+  userFolder: /Users/zhaomanzhou/IdeaProjects/GrammerCompiler/afile/user/
+  problemFolder: /Users/zhaomanzhou/IdeaProjects/GrammerCompiler/afile/admin/
+
+
+
+mq:
+  nameserver:
+    addr: 127.0.0.1:9876
+  topicname: codeJudge
 
 logging:
   level:

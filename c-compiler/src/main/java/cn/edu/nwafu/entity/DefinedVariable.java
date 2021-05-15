@@ -64,5 +64,10 @@ public class DefinedVariable extends Variable {
         d.printMember("initializer", initializer);
     }
 
+    public boolean compatible(DefinedVariable progarm)
+    {
+        return typeNode.typeRef().equals(progarm.typeNode.typeRef()) && name.equals(progarm.name);
+    }
+
 
 }

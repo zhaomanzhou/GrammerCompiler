@@ -39,4 +39,14 @@ public class AddressNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        if(! (programe instanceof AddressNode))
+            return false;
+
+        return expr.compatible(((AddressNode) programe).expr);
+
+
+
+    }
 }

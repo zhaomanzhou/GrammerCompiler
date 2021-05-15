@@ -12,4 +12,41 @@ public class OpAssignNode extends AbstractAssignNode {
         return operator;
     }
 
+
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof  OpAssignNode))
+        {
+            if(operator.equals("---"))
+            {
+                if(!(programe instanceof AssignNode) )
+                {
+                    return false;
+                }
+                return lhs.compatible(((AssignNode) programe).lhs);
+            }else
+            {
+                return false;
+            }
+        }
+        OpAssignNode pg = (OpAssignNode)programe;
+        if(!operator.equals("---"))
+        {
+            if(!operator.equals(pg.operator))
+            {
+                return false;
+            }
+        }
+
+        if(!lhs.compatible(((OpAssignNode) programe).lhs))
+        {
+            return false;
+        }
+
+        if(rhs != null)
+        {
+            return rhs.compatible(((OpAssignNode) programe).rhs);
+        }
+        return true;
+    }
 }

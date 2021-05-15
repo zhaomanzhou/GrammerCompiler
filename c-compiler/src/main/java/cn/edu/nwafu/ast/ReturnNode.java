@@ -20,4 +20,10 @@ public class ReturnNode extends StmtNode {
         d.printMember("expr", expr);
     }
 
+    public boolean compatible(StmtNode program)
+    {
+        if(!(program instanceof ReturnNode))
+            return false;
+        return expr.compatible(((ReturnNode) program).expr);
+    }
 }

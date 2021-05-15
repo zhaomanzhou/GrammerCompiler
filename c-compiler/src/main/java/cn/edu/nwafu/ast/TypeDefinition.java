@@ -33,6 +33,5 @@ abstract public class TypeDefinition extends Node {
         return typeNode.type();
     }
 
-    abstract public Type definingType();
-    abstract public <T> T accept(DeclarationVisitor<T> visitor);
+
 }

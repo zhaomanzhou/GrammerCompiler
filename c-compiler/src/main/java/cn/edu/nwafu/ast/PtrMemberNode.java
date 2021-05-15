@@ -62,4 +62,8 @@ public class PtrMemberNode extends LHSNode {
         d.printMember("member", member);
     }
 
+    boolean compatible(ExprNode programe)
+    {
+        return false;
+    }
 }

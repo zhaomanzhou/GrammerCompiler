@@ -25,4 +25,6 @@ abstract public class CompositeTypeDefinition extends TypeDefinition {
         d.printMember("name", name);
         d.printNodeList("members", members);
     }
+
+
 }

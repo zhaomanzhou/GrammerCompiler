@@ -20,4 +20,15 @@ public class ExprStmtNode extends StmtNode {
         d.printMember("expr", expr);
     }
 
+
+
+
+    @Override
+    public boolean compatible(StmtNode program)
+    {
+        if(!(program instanceof ExprStmtNode))
+            return false;
+
+        return expr.compatible(((ExprStmtNode)program).expr);
+    }
 }

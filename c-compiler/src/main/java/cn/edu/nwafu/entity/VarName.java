@@ -15,6 +15,19 @@ public class VarName
      */
     private long arrayLen;
 
+
+    private VarName subVarName;
+
+    public VarName getSubVarName()
+    {
+        return subVarName;
+    }
+
+    public void setSubVarName(VarName subVarName)
+    {
+        this.subVarName = subVarName;
+    }
+
     public VarName(String name, long arrayLen)
     {
         this.name = name;

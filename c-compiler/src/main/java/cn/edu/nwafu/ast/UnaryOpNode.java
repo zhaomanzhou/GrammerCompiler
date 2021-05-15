@@ -48,4 +48,11 @@ public class UnaryOpNode extends ExprNode {
         d.printMember("expr", expr);
     }
 
+    @Override
+    boolean compatible(ExprNode programe)
+    {
+        if(!(programe instanceof UnaryOpNode))
+            return false;
+        return expr.compatible(((UnaryOpNode) programe).expr);
+    }
 }

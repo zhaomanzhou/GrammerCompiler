@@ -71,17 +71,23 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int SIZEOF = 41;
   /** RegularExpression Id. */
-  int IDENTIFIER = 42;
+  int OMIT = 42;
   /** RegularExpression Id. */
-  int INTEGER = 43;
+  int EXCAT_PARAM_NAME = 43;
   /** RegularExpression Id. */
-  int CHARACTER = 44;
+  int FORBIDDEN = 44;
   /** RegularExpression Id. */
-  int STRING = 45;
+  int IDENTIFIER = 45;
   /** RegularExpression Id. */
-  int FLOATING_POINT_LITERAL = 46;
+  int INTEGER = 46;
   /** RegularExpression Id. */
-  int EXPONENT = 47;
+  int CHARACTER = 47;
+  /** RegularExpression Id. */
+  int STRING = 48;
+  /** RegularExpression Id. */
+  int FLOATING_POINT_LITERAL = 49;
+  /** RegularExpression Id. */
+  int EXPONENT = 50;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -132,6 +138,9 @@ public interface ParserConstants {
     "\"typedef\"",
     "\"import\"",
     "\"sizeof\"",
+    "\"---\"",
+    "\"<EXACT_PARAM_NAME>\"",
+    "\"<forbidden>\"",
     "<IDENTIFIER>",
     "<INTEGER>",
     "<CHARACTER>",
