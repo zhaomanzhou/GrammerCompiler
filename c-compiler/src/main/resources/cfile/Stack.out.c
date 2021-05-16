@@ -12,7 +12,7 @@ typedef int ElementType;
  struct StackInfo
 {
     int topOfStack;
-    ElementType stack[64][];
+    ElementType stack[1][12];
     char* s;
 };
 ElementType stack[64][12];
@@ -42,15 +42,23 @@ j = &i;
 *i = 10;
 
 
-while(i < 11 && i > 1)
+for(i = 0; i < 10; i++)
 {
-
-if(i != 10)
-{
-        printf("%d", i);
-
 }
-}
+
+
+
+
+    while(i < 11 && i > 1)
+    {
+
+        if(i != 10)
+        {
+                printf("%d", i);
+
+        }
+
+    }
     return *i;
 }
 

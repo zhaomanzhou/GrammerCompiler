@@ -9,6 +9,10 @@ import java.util.*;
 
 public class StructNode extends CompositeTypeDefinition {
     protected boolean exactParam;
+    public StructNode(Location loc, TypeRef ref, String name, List<Slot> membs) {
+        super(loc, ref, name, membs);
+        this.exactParam = false;
+    }
     public StructNode(Location loc, TypeRef ref, String name, List<Slot> membs, boolean exactParam) {
         super(loc, ref, name, membs);
         this.exactParam = exactParam;
@@ -42,7 +46,7 @@ public class StructNode extends CompositeTypeDefinition {
                 boolean finded = false;
                 for(Slot pSlot: program.members)
                 {
-                    if(pSlot.compatible(defSlot))
+                    if(defSlot.compatible(pSlot))
                     {
                         finded = true;
                         break;

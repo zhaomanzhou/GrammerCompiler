@@ -12,8 +12,10 @@ public class ForNode extends StmtNode {
     public ForNode(Location loc, 
                    ExprNode init, ExprNode cond, ExprNode incr, StmtNode body) {
         super(loc);
+        if(init != null)
         this.init = new ExprStmtNode(init.location(), init);
         this.cond = cond;
+        if(incr != null)
         this.incr = new ExprStmtNode(incr.location(), incr);
         this.body = body;
     }
@@ -21,8 +23,10 @@ public class ForNode extends StmtNode {
                    ExprNode init, ExprNode cond, ExprNode incr, StmtNode body,
                    boolean ignoreInit, boolean ignoreCond, boolean ignoreIncr) {
         super(loc);
+        if(init != null)
         this.init = new ExprStmtNode(init.location(), init);
         this.cond = cond;
+        if(incr != null)
         this.incr = new ExprStmtNode(incr.location(), incr);
         this.body = body;
         this.ignoreInit = ignoreInit;
@@ -77,7 +81,7 @@ public class ForNode extends StmtNode {
         if(!ignoreCond)
         {
             try{
-                final boolean compatible = init.compatible(pg.init);
+                final boolean compatible = cond.compatible(pg.cond);
                 if(!compatible){
                     return false;
                 }
@@ -89,7 +93,7 @@ public class ForNode extends StmtNode {
         if(!ignoreIncr)
         {
             try{
-                final boolean compatible = init.compatible(pg.init);
+                final boolean compatible = incr.compatible(pg.incr);
                 if(!compatible){
                     return false;
                 }
@@ -98,6 +102,6 @@ public class ForNode extends StmtNode {
             }
         }
 
-        return false;
+        return true;
     }
 }

@@ -42,6 +42,19 @@ public class BlockNode extends StmtNode {
     {
         if(!(program instanceof BlockNode))
             return false;
+
+        for(StmtNode forStmt: forbiddenStmts)
+        {
+            for(StmtNode pgMt: ((BlockNode) program).stmts)
+            {
+                if(forStmt.compatible(pgMt))
+                {
+                    return false;
+                }
+            }
+        }
+
+
         for(DefinedVariable definedVariable: variables)
         {
             boolean finded = false;
@@ -61,32 +74,25 @@ public class BlockNode extends StmtNode {
 
 
 
-
-        int i = 0;
-        int j = 0;
-
-        while (i < stmts.size())
+        for(int i = 0; i < stmts.size(); i++)
         {
-            if(j == ((BlockNode) program).stmts.size()) break;
-            for (;j < ((BlockNode) program).stmts.size(); )
+            boolean finded = false;
+            for (int j = 0; j <((BlockNode) program).stmts.size() ; j++)
             {
                 if(stmts.get(i).compatible(((BlockNode) program).stmts.get(j)))
                 {
-                    i++;
-                    j++;
+                    finded = true;
                     break;
-                }else
-                {
-                    j++;
                 }
             }
-
+            if(!finded)
+            {
+                return false;
+            }
         }
 
-        if(i <stmts.size())
-        {
-            return false;
-        }
+
+
 
         return true;
     }

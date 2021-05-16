@@ -22,14 +22,14 @@ public class ArrayTypeRef extends TypeRef {
     public ArrayTypeRef(TypeRef baseType, VarName varName) {
         super(baseType.location());
         if (length < 0) throw new Error("negative array length");
-        if(varName.getArrayLen() > 0)
-        {
+
+
             this.length = varName.getArrayLen();
-        }
-        if(varName.getSubVarName() != null)
+
+        if(varName.getSubVarName().getSubVarName() != null)
         {
             this.baseType = new ArrayTypeRef(baseType, varName.getSubVarName());
-        }
+        }else
         {
             this.baseType = baseType;
         }
@@ -40,8 +40,16 @@ public class ArrayTypeRef extends TypeRef {
     }
 
     public boolean equals(Object other) {
-        return (other instanceof ArrayTypeRef) &&
-            (length == ((ArrayTypeRef)other).length);
+
+        if(! (other instanceof ArrayTypeRef))
+            return false;
+        if(length != -1)
+        {
+            return length == ((ArrayTypeRef) other).length && baseType.equals(((ArrayTypeRef) other).baseType);
+        }else
+        {
+            return  baseType.equals(((ArrayTypeRef) other).baseType);
+        }
     }
 
     public TypeRef baseType() {

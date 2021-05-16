@@ -162,7 +162,7 @@ public class AST extends Node {
             }
             if(!finded)
             {
-                 return Result.ofFalse("Can't find def of functure " + defFun.name()  + "\n");
+                 return Result.ofFalse("Can't find def of function " + defFun.name()  + "\n");
             }
         }
 

@@ -102,32 +102,21 @@ public class DefinedFunction extends Function {
         }
 
 
-
-
-        int i = 0;
-        int j = 0;
-
-        while (i < body.stmts().size())
+        for (int i = 0; i < body.stmts().size(); i++)
         {
-            if(j == program.body.stmts().size()) break;
-            for (;j < program.body.stmts().size(); )
+            boolean finded = false;
+            for (int j = 0; j < program.body.stmts().size(); j++)
             {
                 if(body.stmts().get(i).compatible(program.body.stmts().get(j)))
                 {
-                    i++;
-                    j++;
+                    finded = true;
                     break;
-                }else
-                {
-                    j++;
                 }
             }
-
-        }
-
-        if(i < body.stmts().size())
-        {
-            return Result.ofFalse("can't find define of statement of " + body.stmts().get(i));
+            if(!finded)
+            {
+                return Result.ofFalse("can't find define of statement of " + body.stmts().get(i));
+            }
         }
 
 

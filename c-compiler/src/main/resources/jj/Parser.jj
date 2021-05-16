@@ -516,13 +516,11 @@ Slot slot():
 {
     t=type() varName=name_()
     {
- if(varName.getArrayLen() == -1)
-             {
-                 t = new TypeNode(new ArrayTypeRef(t.typeRef()));
-             }else if(varName.getArrayLen() > 0)
-             {
-                 t = new TypeNode(new ArrayTypeRef(t.typeRef(), varName.getArrayLen()));
-             }
+       if(varName.getSubVarName() != null)
+
+         {
+             t = new TypeNode(new ArrayTypeRef(t.typeRef(), varName));
+         }
 
 
  return new Slot(t, varName.getName()); }

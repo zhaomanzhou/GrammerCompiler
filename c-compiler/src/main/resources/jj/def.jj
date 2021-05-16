@@ -271,7 +271,7 @@ AST compilation_unit():
         }
      declarations=top_defs() <EOF>
         {
-            return new AST(location(t), decls);
+            return new AST(location(token), declarations);
         }
 }
 
@@ -493,7 +493,7 @@ StructNode defstruct():
     Token param=null;
 }
 {
-    t=<STRUCT> [param=<EXCAT_PARAM_NAME>] n=name() membs=member_list() ";"
+    t=<STRUCT>  n=name() [param=<EXCAT_PARAM_NAME>] membs=member_list() ";"
         {
             return new StructNode(location(t), new StructTypeRef(n), n, membs, param==null);
         }
@@ -534,16 +534,15 @@ Slot slot():
 {
     t=type() varName=name_()
     {
- if(varName.getArrayLen() == -1)
-             {
-                 t = new TypeNode(new ArrayTypeRef(t.typeRef()));
-             }else if(varName.getArrayLen() > 0)
-             {
-                 t = new TypeNode(new ArrayTypeRef(t.typeRef(), varName.getArrayLen()));
-             }
+
+       if(varName.getSubVarName() != null)
+
+         {
+             t = new TypeNode(new ArrayTypeRef(t.typeRef(), varName));
+         }
 
 
- return new Slot(t, varName.getName()); }
+       return new Slot(t, varName.getName()); }
 }
 
 UndefinedFunction funcdecl():
@@ -613,10 +612,13 @@ List<StmtNode> forbidden_stmts_():
 {
     <FORBIDDEN> "{"
      (s=stmt() { if (s != null) ss.add(s); }
-        {
-            return ss;
-        })*
-        "}"
+        )*
+    "}"
+    {
+
+       return ss;
+
+    }
 }
 
 List<StmtNode> stmts_():
@@ -637,8 +639,8 @@ StmtNode stmt():
     ExprNode e = null;
 }
 {
-    ( ";"
-    | LOOKAHEAD(2) n=labeled_stmt()
+    (";"
+     LOOKAHEAD(2) n=labeled_stmt()
     | e=expr() ";" { n = new ExprStmtNode(e.location(), e); }
     | n=block()
     | n=if_stmt()
@@ -716,13 +718,13 @@ ForNode for_stmt():
 {
     Token t;
     ExprNode init = null, cond = null, incr = null;
-    boolean ignoreInit = false, ignoreCond=false, ignoreIncr=fasle;
+    boolean ignoreInit = false, ignoreCond=false, ignoreIncr=false;
     StmtNode body;
 }
 {
-    t=<FOR> "(" <OMIT> {ignoreInit=true;}| [init=expr()] ";"
-              <OMIT> {ignoreCond=true;}|[cond=expr()] ";"
-              <OMIT> {ignoreIncr=true;}[incr=expr()] ")" body=stmt()
+    t=<FOR> "(" (<OMIT> {ignoreInit=true;}| [init=expr()] )";"
+              (<OMIT> {ignoreCond=true;}|[cond=expr()] )";"
+              (<OMIT> {ignoreIncr=true;}|[incr=expr()] )")" body=stmt()
         {
             return new ForNode(location(t), init, cond, incr, body, ignoreInit, ignoreCond, ignoreIncr);
         }
@@ -1167,8 +1169,8 @@ VarName name_():
     (
         LOOKAHEAD(3)
 
-         "[" "]"  {varName =  new VarName(name, -1);} |
-         "[" len=<INTEGER>"]" {varName =  new VarName(name, integerValue(len.image));}
+         "["[<OMIT> ] "]"  {VarName varName2 =  new VarName(name, -1); varName2.setSubVarName(varName); varName = varName2;} |
+         "[" len=<INTEGER>"]" {VarName varName2 =  new VarName(name, integerValue(len.image));varName2.setSubVarName(varName); varName = varName2;}
     )*
 
     {
