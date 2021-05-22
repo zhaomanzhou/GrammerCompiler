@@ -1,33 +1,40 @@
-typedef int ElementType;
+#include <stdio.h>
+#include <stdlib.h>
 
-struct StackInfo <EXACT_PARAM_NAME> {
-    int topOfStack;
-    ElementType stack[][12];
-    char* s;
-};
 
-int stack_push(---) <EXACT_PARAM_NAME>
+struct test <EXACT_PARAM_NAME>{
+    int a;
+}
+
+int* twoSum(int* numbers, int numbersSize, int target, int* returnSize) <EXACT_PARAM_NAME> {
+
+    while (---) {
+        if (---) {
+
+        }
+        <forbidden>{
+            for(---;---;---){
+            }
+
+            while(---){
+            }
+        }
+    }
+}
+
+
+
+int main()
 {
+    int* result;
     int i;
-    char* j;
-    for(---;i < 10;---)
-    {
 
-    }
-    while(---)
+    int* result = twoSum(---);
+    for (i = 0; ---; i++)
     {
-        if(---)
-        {
-            printf("%d", i);
-        }
-
-        <forbidden> {
-             for(---;---;---){
-             }
-        }
+        printf("%d", result[i]);
     }
 
-    return *i;
-
-
+    free(result);
+    return 0;
 }

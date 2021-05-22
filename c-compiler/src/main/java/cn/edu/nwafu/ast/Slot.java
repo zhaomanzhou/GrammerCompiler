@@ -43,8 +43,11 @@ public class Slot extends Node {
         d.printMember("typeNode", typeNode);
     }
 
-    public boolean compatible(Slot program)
+    public boolean compatible(Slot program, boolean exactParam)
     {
+        if(exactParam)
         return typeNode.typeRef.equals(program.typeRef()) && name.equals(program.name);
+        else
+            return typeNode.typeRef.equals(program.typeRef());
     }
 }

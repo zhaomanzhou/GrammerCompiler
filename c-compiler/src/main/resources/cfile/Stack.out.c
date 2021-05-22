@@ -1,128 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+int* twoSum(int* numbers, int numbersSize, int target, int* returnSize) {
+    int* ret = (int*)malloc(sizeof(int) * 2);
+    *returnSize = 2;
 
-void fun()
-{
-    int i;
-     i = x + y;
-}
-
-
-typedef int ElementType;
-
- struct StackInfo
-{
-    int topOfStack;
-    ElementType stack[1][12];
-    char* s;
-};
-ElementType stack[64][12];
-
-typedef struct StackInfo StackInfo_st;
-
-
-int stack_push(StackInfo_st *s,ElementType value);
-int stack_pop(StackInfo_st *s,ElementType *value);
-int stack_top(StackInfo_st *s,ElementType *value);
-int stack_is_full(StackInfo_st *s);
-int stack_is_empty(StackInfo_st *s);
-
-
-
-int stack_push(struct StackInfo *s,ElementType value)
-{
-    int i;
-    char* j;
-//    int k;
-//    int a[];
-//
-//    a[i][k] += 10;
-
-//    *j = 10;
-j = &i;
-*i = 10;
-
-
-for(i = 0; i < 10; i++)
-{
-}
-
-
-
-
-    while(i < 11 && i > 1)
-    {
-
-        if(i != 10)
-        {
-                printf("%d", i);
-
+    int low = 0, high = numbersSize - 1;
+    while (low < high) {
+        int sum = numbers[low] + numbers[high];
+        if (sum == target) {
+            ret[0] = low + 1;
+            ret[1] = high + 1;
+            return ret;
+        } else if (sum < target) {
+            ++low;
+        } else {
+            --high;
         }
-
     }
-    return *i;
+    ret[0] = -1;
+    ret[1] = -1;
+    return ret;
 }
 
 
-int stack_pop(StackInfo_st *s,ElementType *value)
+
+int main()
 {
-
-    if(stack_is_empty(s))
-        return -1;
-    *value = s->stack[s->topOfStack];
-    s->topOfStack--;
-    return 0;
-}
-
-
-int stack_top(StackInfo_st *s,ElementType *value)
-{
-
-    if(stack_is_empty(s))
-        return -1;
-    *value = s->stack[s->topOfStack];
-    return 0;
-}
-
-
-int stack_is_full(StackInfo_st *s)
-{
-    return s->topOfStack == 64 - 1;
-}
-
-
-int stack_is_empty(StackInfo_st *s)
-{
-    return s->topOfStack == - 1;
-}
-int main(void)
-{
-
-
-    StackInfo_st stack;
-    stack.topOfStack = -1;
-
-
-    if(stack_is_empty(&stack))
+    int numberSize, i, target, returnSize;
+    scanf("%d", &numberSize);
+    int* numbers = (int *)malloc(sizeof(int )* numberSize);
+    for (i = 0; i < numberSize; i++)
     {
-        printf("push value 1\n");
-        stack_push(&stack,1);
+        scanf("%d", numbers+i);
     }
-
-
-    int topVal;
-    stack_top(&stack, &topVal);
-    printf("top value %d\n",topVal);
-
-
-    int popVal;
-    stack_pop(&stack, &popVal);
-    printf("pop value %d\n",popVal);
-    int i = 0;
-    while(0 == stack_push(&stack,i))
+    scanf("%d", &target);
+    int* result = twoSum(numbers, numberSize, target, &returnSize);
+    for (i = 0; i < returnSize; i++)
     {
-        i++;
-    }
-    printf("stack is full,topOfStack is发发发 %d\n",stack.topOfStack);
 
+        printf("%d", result[i]);
+        if(i != returnSize - 1)
+        {
+            printf(" ");
+        }
+    }
+    free(numbers);
+    free(result);
     return 0;
 }

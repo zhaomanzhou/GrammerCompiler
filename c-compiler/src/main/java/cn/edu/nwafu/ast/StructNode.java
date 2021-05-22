@@ -46,7 +46,7 @@ public class StructNode extends CompositeTypeDefinition {
                 boolean finded = false;
                 for(Slot pSlot: program.members)
                 {
-                    if(defSlot.compatible(pSlot))
+                    if(defSlot.compatible(pSlot, exactParam))
                     {
                         finded = true;
                         break;

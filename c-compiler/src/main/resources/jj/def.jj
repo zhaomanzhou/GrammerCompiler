@@ -16,9 +16,7 @@ import cn.edu.nwafu.entity.*;
 public class Parser
 {
 
-        private String sourceName = "";
-        private ErrorHandler errorHandler;
-        private Set<String> knownTypedefs = new HashSet<>();
+
 
     public static void main ( String[] args  ) throws Exception
     {
@@ -30,7 +28,7 @@ public class Parser
         cn.edu.nwafu.parser.Parser progPaser = new cn.edu.nwafu.parser.Parser(cn.edu.nwafu.parser.Parser.class.getClassLoader().getResourceAsStream("cfile/Stack.out.c"));
         AST progAst = progPaser.compilation_unit();
         System.out.println(defAst.compatible(progAst));
-//        defAst.dump();
+        defAst.dump();
     }
 
     private IntegerLiteralNode integerNode(Location loc, String image) {
@@ -495,7 +493,7 @@ StructNode defstruct():
 {
     t=<STRUCT>  n=name() [param=<EXCAT_PARAM_NAME>] membs=member_list() ";"
         {
-            return new StructNode(location(t), new StructTypeRef(n), n, membs, param==null);
+            return new StructNode(location(t), new StructTypeRef(n), n, membs, param!=null);
         }
 }
 
@@ -1138,7 +1136,7 @@ ExprNode postfix():
     | "["( <OMIT> {idx = null;}| idx=expr()) "]"    { expr = new ArefNode(expr, idx); }
     | "." memb=name()       { expr = new MemberNode(expr, memb); }
     | "->" memb=name()      { expr = new PtrMemberNode(expr, memb); }
-    | "(" args=args() ")"   { expr = new FuncallNode(expr, args); }
+    | "(" (<OMIT>{args=null;} | args=args()) ")"   { expr = new FuncallNode(expr, args); }
     )*
         {
             return expr;

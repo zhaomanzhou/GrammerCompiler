@@ -70,6 +70,10 @@ public class FuncallNode extends ExprNode {
 
         if(!expr.compatible(((FuncallNode) programe).expr))
             return false;
+        if(args == null)
+        {
+            return true;
+        }
         for(ExprNode arg : args)
         {
             boolean finded = false;

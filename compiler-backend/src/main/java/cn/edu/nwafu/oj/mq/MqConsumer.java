@@ -52,7 +52,6 @@ public class MqConsumer
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-                //实现库存真正到数据库内扣减的逻辑
                 try
                 {
                     Message msg = msgs.get(0);
