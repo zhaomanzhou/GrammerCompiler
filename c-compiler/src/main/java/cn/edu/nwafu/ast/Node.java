@@ -3,7 +3,7 @@ import cn.edu.nwafu.utils.Result;
 
 import java.io.PrintStream;
 
-abstract public class Node implements Dumpable {
+abstract public class Node implements Dumpable, Matchable {
     public Node() {
     }
 

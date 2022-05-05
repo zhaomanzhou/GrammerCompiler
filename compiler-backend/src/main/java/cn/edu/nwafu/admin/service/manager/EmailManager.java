@@ -35,7 +35,7 @@ public class EmailManager
         map.put("vcode", vcode);
         switch (emailTypeEnum)
         {
-            case REGISTER_VCODE : emailAdapter.sendThymeleafMail("IdoFast验证码", toEmail, map, "vcode.html"); break;
+            case REGISTER_VCODE : emailAdapter.sendThymeleafMail("C语言在线编译器验证码", toEmail, map, "vcode.html"); break;
         }
 
     }

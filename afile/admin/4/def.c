@@ -1,3 +1,5 @@
+
+
 int* twoSum(int* numbers, int numbersSize, int target, int* returnSize) <EXACT_PARAM_NAME> {
 
     while (---) {
